@@ -1,0 +1,12 @@
+elk:
+  image: sebp/elk
+  ports:
+    - "8089:8089"
+    - "5601:5601"
+    - "9200:9200"
+    - "5044:5044"
+  environment:
+    - vm.max_map_count=262144
+  volumes:
+    - /home/molox/Documents/src/elastic-cronjob/docker-compose/elk/scripts:/etc/elasticsearch/scripts
+    - /home/molox/Documents/src/elastic-cronjob/docker-compose/elk/logstash:/etc/logstash/conf.d

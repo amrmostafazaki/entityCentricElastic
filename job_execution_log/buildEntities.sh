@@ -1,6 +1,6 @@
 echo "Indexing jobs from job_execution_log data"
-es_host="http://localhost:9200"
-updateScriptID=JobUpdater.painless
+es_host="http://192.168.56.101:9200"
+updateScriptID=JobUpdater
 
 
 echo "Deleting old index: jobs"
@@ -55,4 +55,4 @@ curl -XPUT    "$es_host/jobs" -d '
 '
 echo ""
 echo "Indexing jobs from job_execution_log data"
-python ../ESEntityCentricIndexing.py events eventQuery.json job_code jobs job $updateScriptID -scriptMode incremental
+python ../ESEntityCentricIndexing.py job_execution_logs eventQuery.json code jobs job $updateScriptID -scriptMode incremental -eventDocType job_execution_log

@@ -15,7 +15,8 @@
 
     // Consolidate latest batch of events
     def last_session_id = "";
-    for (event in params.events) {
+    def event = params.events;
+    //for (event in params.events) {
       def session = sessionMap[event.sessionId];
       if(session == null){
         session=[
@@ -30,7 +31,7 @@
         session.end_date = event.date;
       }
       last_session_id = session.session_id;
-    }
+    //}
     // Update the document with summary properties
     docSrc.sessions = sessionMap.values();
     docSrc.last_start_date = sessionMap[last_session_id].start_date;

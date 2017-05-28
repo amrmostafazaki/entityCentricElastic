@@ -3,6 +3,7 @@ from elasticsearch import helpers
 from elasticsearch import Elasticsearch
 import sys
 import zipfile
+import os
 import StringIO
 
 filename = 'job_execution_logs.mini.csv.zip'
@@ -43,7 +44,9 @@ es.indices.create(index=indexName, body=indexSettings)
 actions = []
 
 fields = []
-with zipfile.ZipFile(filename) as z:
+
+full_path = os.getcwd() + "/" + filename
+with zipfile.ZipFile(full_path) as z:
     for zippedFilename in z.namelist():
         numLines = 0
         data = StringIO.StringIO(z.read(zippedFilename))
@@ -53,6 +56,8 @@ with zipfile.ZipFile(filename) as z:
             if numLines == 1:
                 fields = row
             else:
+                if len(row) < 1:
+                    break
                 doc = {
                 	'sessionId': row[0],
                  	'code': row[1],
