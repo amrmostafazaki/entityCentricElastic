@@ -1,0 +1,46 @@
+
+	def docSrc = ctx._source;
+
+	if("create".equals(ctx.op)){
+		//initialize entity state
+		docSrc.sessions = [];
+		docSrc.status = "waiting";
+	}    
+	
+    // Convert seller array into map for ease of manipulation
+    def sessionMap =[:];
+    for (session in docSrc.sessions) {
+      sessionMap[session.session_id]=session;
+    }
+
+    def last_session_id = ""
+    // Consolidate latest batch of events
+    for (event in params.events) {
+      def session = sessionMap[event.sessionId];
+      if(session == null){
+        session=[
+          "session_id": event.sessionId
+        ];
+        sessionMap[session.session_id]=session;
+      }
+      if (event.eventType == 0){
+        session.start_date = event.date
+      }
+      if (event.eventType == 1){
+        session.end_date = event.date
+      }
+      last_session_id = session.session_id
+    }
+    // Update the document with summary properties
+    docSrc.sessions = sessionMap.values();
+    docSrc.last_start_date = sessionMap[last_session_id].start_date
+    docSrc.last_end_date = sessionMap[last_session_id].end_date
+    docSrc.last_session_id = last_session_id
+    
+    docSrc.status = "waiting";
+
+    if (docSrc.last_end_date == null){
+      docSrc.status = "running";
+    }
+
+ 

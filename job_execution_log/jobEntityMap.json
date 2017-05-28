@@ -1,0 +1,44 @@
+{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0
+    },
+    "mappings": {
+        "job": {
+            "properties": {
+                "status": {
+                    "type": "keyword"
+                },
+                "last_start_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm"
+                },
+                "last_end_date": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm"
+                },
+                "job_code": {
+                    "type": "keyword"
+                },
+                "sessions": {
+                    "properties": {
+                        "session_id": {
+                            "type": "keyword"
+                        },
+                        "start_date": {
+                            "type": "date",
+                            "format": "yyyy-MM-dd HH:mm"
+                        },
+                        "end_date": {
+                            "type": "date",
+                            "format": "yyyy-MM-dd HH:mm"
+                        }
+                    }
+                },
+                "last_session_id": {
+                    "type": "keyword"
+                }
+            }
+        }
+    }
+}
