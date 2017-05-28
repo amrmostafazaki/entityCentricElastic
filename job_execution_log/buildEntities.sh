@@ -1,6 +1,6 @@
 echo "Indexing jobs from job_execution_log data"
 es_host="http://localhost:9200"
-updateScriptID=JobSessionUpdater
+updateScriptID=JobUpdater.painless
 
 
 echo "Deleting old index: jobs"

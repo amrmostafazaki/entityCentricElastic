@@ -7,7 +7,7 @@
 		docSrc.status = "waiting";
 	}    
 	
-    // Convert seller array into map for ease of manipulation
+    // Convert session array into map for ease of manipulation
     def sessionMap =[:];
     for (session in docSrc.sessions) {
       sessionMap[session.session_id]=session;
@@ -37,6 +37,7 @@
     docSrc.last_end_date = sessionMap[last_session_id].end_date
     docSrc.last_session_id = last_session_id
     
+    // reassess the status of the job
     docSrc.status = "waiting";
 
     if (docSrc.last_end_date == null){
